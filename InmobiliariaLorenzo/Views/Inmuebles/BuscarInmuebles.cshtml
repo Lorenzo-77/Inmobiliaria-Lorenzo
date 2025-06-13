@@ -1,0 +1,113 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Buscar Inmuebles";
+    var listaUsos = (List<InmobiliariaLorenzo.Models.Uso>)ViewBag.ListaUsos;
+    var listaTipos = (List<InmobiliariaLorenzo.Models.Tipo>)ViewBag.ListaTipos;
+}
+
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+<script src="https://kit.fontawesome.com/708362d465.js" crossorigin="anonymous"></script>
+
+<h2 class="mb-4">Buscar Inmuebles</h2>
+<p>Ingresá dos fechas para listar los inmuebles que NO estén ocupados en ese rango.</p>
+
+<div class="card shadow-sm p-4 mb-4">
+    <form asp-action="BuscarInmuebles" method="get">
+
+        <div class="row g-3">
+            <!-- Columna 1 -->
+            <div class="col-md-3">
+                <label class="form-label" for="Ambientes">Ambientes</label>
+                <input type="number" id="Ambientes" name="Ambientes" class="form-control" min="0" />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label" for="Precio">Precio Máximo</label>
+                <input type="number" id="Precio" name="Precio" class="form-control" min="0" />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label" for="Id_Uso">Uso</label>
+                <select id="Id_Uso" name="Id_Uso" class="form-control">
+                    <option value="">Todos</option>
+                    @foreach (var uso in listaUsos)
+                    {
+                        <option value="@uso.Id_Uso">@uso.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label" for="Id_Tipo">Tipo</label>
+                <select id="Id_Tipo" name="Id_Tipo" class="form-control">
+                    <option value="">Todos</option>
+                    @foreach (var tipo in listaTipos)
+                    {
+                        <option value="@tipo.Id_Tipo">@tipo.Nombre</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-3">
+                <label class="form-label" for="Fecha_Inicio">Fecha Desde</label>
+                <input type="date" id="Fecha_Inicio" name="Fecha_Inicio" class="form-control" required />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label" for="Fecha_Fin">Fecha Hasta</label>
+                <input type="date" id="Fecha_Fin" name="Fecha_Fin" class="form-control" required />
+            </div>
+
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="card shadow-sm p-4">
+        <h4>Resultados:</h4>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Dirección</th>
+                    <th>Ambientes</th>
+                    <th>Precio</th>
+                    <th>Uso</th>
+                    <th>Tipo</th>
+                    <th>Disponible</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inmueble in Model)
+                {
+                    <tr>
+                        <td>@inmueble.Direccion</td>
+                        <td>@inmueble.Ambientes</td>
+                        <td>@inmueble.Precio.ToString("C")</td>
+                        <td>@inmueble.Uso.Nombre</td>
+                        <td>@inmueble.Tipo.Nombre</td>
+                        <td>@(inmueble.Activo == true ? "Sí" : "No")</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@inmueble.Id_Inmueble" class="btn btn-sm btn-outline-info">
+                                <i class="fa-solid fa-eye"></i> Ver
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else if(Model != null)
+{
+    <div class="alert alert-warning">No se encontraron inmuebles con esos filtros.</div>
+}

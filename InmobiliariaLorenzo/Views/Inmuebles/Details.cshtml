@@ -1,0 +1,75 @@
+@model InmobiliariaLorenzo.Models.Inmueble
+
+@{
+    ViewData["Title"] = "Detalles del Inmueble";
+}
+
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+<script src="https://kit.fontawesome.com/708362d465.js" crossorigin="anonymous"></script>
+
+<h2 class="mb-4">Detalles del Inmueble</h2>
+
+<div class="row g-4">
+    <!-- Imagen -->
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <img src="~/img/propiedad2.jpg" class="card-img-top img-fluid rounded" alt="Foto Inmueble">
+        </div>
+    </div>
+
+    <!-- Datos del inmueble -->
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Información General</h5>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>@Model.Id_Inmueble</td>
+                            <th>Tipo</th>
+                            <td>@Model.Tipo</td>
+                        </tr>
+                        <tr>
+                            <th>Propietario</th>
+                            <td colspan="3">@Model.Titular.Nombre @Model.Titular.Apellido</td>
+                        </tr>
+                        <tr>
+                            <th>Dirección</th>
+                            <td colspan="3">@Model.Direccion</td>
+                        </tr>
+                        <tr>
+                            <th>Uso</th>
+                            <td>@Model.Uso</td>
+                            <th>Ambientes</th>
+                            <td>@Model.Ambientes</td>
+                        </tr>
+                        <tr>
+                            <th>Latitud</th>
+                            <td>@Model.Latitud</td>
+                            <th>Longitud</th>
+                            <td>@Model.Longitud</td>
+                        </tr>
+                        <tr>
+                            <th>Precio</th>
+                            <td>@Model.Precio.ToString("C")</td>
+                            <th>Activo</th>
+                            <td>@(Model.Activo == true ? "Sí" : "No")</td>
+                        </tr>
+                        <tr>
+                            <th>Disponible</th>
+                            <td>@(Model.Activo == true ?  "Sí" : "No")</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mt-4">
+                    <a asp-action="Index" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

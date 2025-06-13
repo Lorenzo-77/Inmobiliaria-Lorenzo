@@ -1,0 +1,91 @@
+@model InmobiliariaLorenzo.Models.Pago
+
+@{
+    ViewData["Title"] = "Realizar Pago";
+    var ListaPagos = (List<Pago>)ViewBag.ListaPagos;
+    var id_inquilino = (int)(ViewBag.id_inquilino != null ? ViewBag.id_inquilino : 0);
+}
+
+<h2>Realizar Pago</h2>
+
+<p class="text-muted">
+    Listar los pagos realizados para un contrato en particular y permitir cargar un nuevo pago desde la misma pantalla.
+</p>
+
+<hr />
+
+<div class="row">
+    <!-- Formulario de Pago -->
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                Nuevo Pago
+            </div>
+            <div class="card-body">
+                <form asp-action="PagoPorContrato">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Fecha" class="form-label"></label>
+                        <input asp-for="Fecha" class="form-control" />
+                        <span asp-validation-for="Fecha" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Importe" class="form-label"></label>
+                        <input asp-for="Importe" class="form-control" />
+                        <span asp-validation-for="Importe" class="text-danger"></span>
+                    </div>
+
+                    <input asp-for="Id_Contrato" type="hidden" value="@(ViewBag.ContratoId)" />
+
+                    <div class="d-grid">
+                        <input type="submit" value="Pagar" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Pagos -->
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                Pagos Realizados
+            </div>
+            <div class="card-body">
+                <table class="table table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nro Pago</th>
+                            <th>Fecha</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ListaPagos)
+                        {
+                            <tr>
+                                <td>@item.Id_Pago</td>
+                                <td>@item.Fecha.ToShortDateString()</td>
+                                <td>$ @item.Importe.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botón Volver -->
+<div class="mt-4">
+    @if (id_inquilino > 0)
+    {
+        <a asp-controller="Contratos" asp-action="ContratosPorInquilino" asp-route-id="@id_inquilino" class="btn btn-secondary">Volver al listado de contratos</a>
+    }
+    else
+    {
+        <a asp-controller="Contratos" asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+    }
+</div>

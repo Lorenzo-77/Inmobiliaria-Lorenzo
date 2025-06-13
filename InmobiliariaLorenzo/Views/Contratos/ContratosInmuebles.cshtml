@@ -1,0 +1,72 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Reporte de Contratos por Inmueble";
+    var listaInmuebles = (List<InmobiliariaLorenzo.Models.Inmueble>)ViewBag.listaInmuebles;
+}
+
+<h2 class="mb-3">Reporte de Contratos por Inmueble</h2>
+<p class="mb-4">Lista de todos los contratos registrados, filtrados por inmueble si se desea.</p>
+
+<div class="card mb-4">
+    <div class="card-header">Filtros</div>
+    <div class="card-body">
+        <form asp-action="ContratosInmuebles" method="get">
+            <div class="row align-items-end">
+                <div class="col-md-4">
+                    <label for="Id_Inmueble" class="form-label">Inmueble</label>
+                    <select id="Id_Inmueble" name="Id_Inmueble" class="form-select">
+                        <option value="">Todos</option>
+                        @foreach (var item in listaInmuebles)
+                        {
+                            <option value="@item.Id_Inmueble">@item.Direccion</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">Resultados</div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <p class="text-muted">No se encontraron contratos para el inmueble seleccionado.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>@Html.DisplayNameFor(m => m.First().Id_Contrato)</th>
+                            <th>@Html.DisplayNameFor(m => m.First().Fecha_Inicio)</th>
+                            <th>@Html.DisplayNameFor(m => m.First().Fecha_Fin)</th>
+                            <th>@Html.DisplayNameFor(m => m.First().Monto)</th>
+                            <th>Inmueble</th>
+                            <th>Inquilino</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id_Contrato</td>
+                                <td>@item.Fecha_Inicio.ToShortDateString()</td>
+                                <td>@item.Fecha_Fin.ToShortDateString()</td>
+                                <td>$@item.Monto</td>
+                                <td>@item.Inmueble.Direccion</td>
+                                <td>@item.Inquilino.Nombre @item.Inquilino.Apellido</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

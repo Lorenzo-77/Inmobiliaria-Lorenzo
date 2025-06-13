@@ -1,0 +1,105 @@
+@model InmobiliariaLorenzo.Models.Inmueble
+@{
+    ViewData["Title"] = "Editar Inmueble";
+}
+
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+<script src="https://kit.fontawesome.com/708362d465.js" crossorigin="anonymous"></script>
+
+<h2 class="mb-4">Editar Inmueble</h2>
+
+<div class="card shadow-sm p-4">
+    <form asp-action="Editar">
+        <input asp-for="Id" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <!-- Columna 1 -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Id_Propietario" class="form-label">Propietario</label>
+                    <select asp-for="Id_Propietario" class="form-control">
+                        @foreach (var propietario in ViewBag.ListaPropietarios)
+                        {
+                            <option value="@propietario.Id">@propietario.Nombre @propietario.Apellido</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Propietario" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Direccion" class="form-label"></label>
+                    <input asp-for="Direccion" class="form-control" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Tipo" class="form-label"></label>
+                    <select asp-for="Tipo" class="form-control">
+                        <option value="1">Casa</option>
+                        <option value="2">Oficina</option>
+                        <option value="3">Departamento</option>
+                        <option value="4">Almacén</option>
+                    </select>
+                    <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Ambientes" class="form-label"></label>
+                    <input asp-for="Ambientes" class="form-control" />
+                    <span asp-validation-for="Ambientes" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Precio" class="form-label"></label>
+                    <input asp-for="Precio" class="form-control" />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Columna 2 -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Uso" class="form-label"></label>
+                    <select asp-for="Uso" class="form-control">
+                        <option value="1">Comercial</option>
+                        <option value="2">Personal</option>
+                    </select>
+                    <span asp-validation-for="Uso" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Latitud" class="form-label"></label>
+                    <input asp-for="Latitud" class="form-control" />
+                    <span asp-validation-for="Latitud" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Longitud" class="form-label"></label>
+                    <input asp-for="Longitud" class="form-control" />
+                    <span asp-validation-for="Longitud" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mt-3">
+                    <input asp-for="Activo" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Activo</label>
+                </div>
+
+                <div class="form-check">
+                    <input asp-for="Disponible" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label">Disponible</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-save"></i> Guardar
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+            </a>
+        </div>
+    </form>
+</div>

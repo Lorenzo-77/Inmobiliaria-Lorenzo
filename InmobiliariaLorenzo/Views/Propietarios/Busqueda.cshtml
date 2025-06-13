@@ -1,0 +1,93 @@
+@model InmobiliariaLorenzo.Models.Propietario
+
+@{
+    ViewData["Title"] = "Buscar Propietario";
+}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<h1 class="mt-4 mb-4 text-center">
+    <i class="bi bi-search"></i> Buscar Propietario
+</h1>
+
+<div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-filter-square"></i> Filtro de búsqueda
+            </div>
+            <div class="card-body">
+                <form id="form_buscar">
+                    <div class="mb-3">
+                        <input name="q" id="q" class="form-control" placeholder="Nombre o apellido..." />
+                    </div>
+                    <div class="text-end">
+                        <input type="submit" value="Buscar" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="bi bi-people-fill"></i> Resultados de la búsqueda
+    </div>
+    <div class="card-body">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody id="resultado">
+                <!-- Aquí Mustache insertará los resultados -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4 text-center">
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Volver al listado
+    </a>
+</div>
+
+<!-- Template Mustache -->
+<script id="t_tabla" type="x-tmpl-mustache">
+    {{#datos}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{nombre}}</td>
+        <td>{{apellido}}</td>
+        <td>{{email}}</td>
+        <td>{{telefono}}</td>
+    </tr>
+    {{/datos}}
+    {{^datos}}
+    <tr>
+        <td colspan="5" class="text-center text-muted">No se encontraron resultados.</td>
+    </tr>
+    {{/datos}}
+</script>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+    <script>
+        $("#form_buscar").on("submit", function (e) {
+            e.preventDefault();
+            var q = $("#q").val();
+            $.get(`@Url.Action("Buscar", "Propietarios")/${q}`).done(function (res) {
+                var template = $("#t_tabla").html();
+                var rendered = Mustache.render(template, res);
+                $("#resultado").html(rendered);
+            });
+        });
+    </script>
+}

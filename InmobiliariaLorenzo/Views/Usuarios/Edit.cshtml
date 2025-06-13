@@ -1,0 +1,86 @@
+@model InmobiliariaLorenzo.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+<h1 class="mt-4 mb-4 text-center">
+    <i class="bi bi-pencil-square"></i> Editar Usuario
+</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-white">
+        <i class="bi bi-person-lines-fill"></i> Datos del usuario
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Id_Usuario" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Apellido" class="form-label"></label>
+                        <input asp-for="Apellido" class="form-control" />
+                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Mail" class="form-label"></label>
+                        <input asp-for="Mail" class="form-control" />
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Rol" class="form-label"></label>
+                        <select class="form-select" asp-for="Rol">
+                            <option value="1" selected="@(Model.Rol == 1)">Administrador</option>
+                            <option value="2" selected="@(Model.Rol != 1)">Empleado</option>
+                        </select>
+                        <span asp-validation-for="Rol" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-3">
+                <img src="@(string.IsNullOrEmpty(Model.Avatar) ? "/Uploads/av1.jpg" : Model.Avatar)"
+                     class="rounded-circle shadow"
+                     style="width: 100px; height: 100px;"
+                     alt="Avatar" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="AvatarFile" class="form-label"></label>
+                <input asp-for="AvatarFile" type="file" class="form-control" />
+                <span asp-validation-for="AvatarFile" class="text-danger"></span>
+            </div>
+
+            <input asp-for="Avatar" type="hidden" />
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver al listado
+                </a>
+                <button type="submit" class="btn btn-warning">
+                    <i class="bi bi-check-lg"></i> Guardar cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

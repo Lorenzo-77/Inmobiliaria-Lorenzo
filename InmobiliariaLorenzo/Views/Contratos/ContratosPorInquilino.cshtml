@@ -1,0 +1,64 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Contratos del Inquilino";
+}
+
+<h2 class="mb-3">Contratos del Inquilino</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear nuevo contrato</a>
+</p>
+
+<div class="card">
+    <div class="card-header">
+        Lista de contratos
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <p class="text-muted">Este inquilino no tiene contratos registrados.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.First().Id_Contrato)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Fecha_Inicio)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Fecha_Fin)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Monto)</th>
+                            <th>Inmueble</th>
+                            <th>Inquilino</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id_Contrato</td>
+                                <td>@item.Fecha_Inicio.ToShortDateString()</td>
+                                <td>@item.Fecha_Fin.ToShortDateString()</td>
+                                <td>$@item.Monto</td>
+                                <td>@item.Inmueble.Direccion</td>
+                                <td>@item.Inquilino.Nombre @item.Inquilino.Apellido</td>
+                                <td class="text-nowrap">
+                                    <a asp-action="Edit" asp-route-id="@item.Id_Contrato" class="btn btn-warning btn-sm">Editar</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id_Contrato" class="btn btn-info btn-sm">Detalles</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id_Contrato" class="btn btn-danger btn-sm">Eliminar</a>
+                                    <a asp-controller="Pagos" asp-action="PagoPorContrato" asp-route-id="@item.Id_Contrato" asp-route-id_inquilino="@item.Inquilino.Id_Inquilino" class="btn btn-outline-primary btn-sm">Pagar</a>
+                                    @if (DateTime.Now >= item.Fecha_Inicio && DateTime.Now <= item.Fecha_Fin)
+                                    {
+                                        <a asp-controller="Contratos" asp-action="FinalizarContrato" asp-route-id="@item.Id_Contrato" asp-route-id_inquilino="@item.Inquilino.Id_Inquilino" class="btn btn-outline-danger btn-sm">Finalizar</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

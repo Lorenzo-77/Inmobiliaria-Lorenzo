@@ -1,0 +1,37 @@
+@model InmobiliariaLorenzo.Models.Contrato
+
+@{
+    ViewData["Title"] = "Detalles del Contrato";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card p-4 shadow rounded-3">
+            <h3 class="mb-4 text-center">Detalles del Contrato</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Fecha de Inicio:</strong> @Model.FechaInicio.ToShortDateString()</p>
+                    <p><strong>Fecha de Finalización:</strong> @Model.FechaFin.ToShortDateString()</p>
+                    <p><strong>Monto:</strong> $@Model.Monto</p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <strong>Inmueble:</strong> @Model.Inmueble.Direccion
+                        <a asp-controller="inmuebles" asp-action="Detalles" asp-route-id="@Model.Inmueble.Id" class="btn btn-sm btn-outline-info ms-2">Ver más</a>
+                    </p>
+                    <p>
+                        <strong>Propietario:</strong> @Model.Inmueble.Titular.Nombre @Model.Inmueble.Titular.Apellido
+                        <a asp-controller="propietarios" asp-action="Detalles" asp-route-id="@Model.Inmueble.Titular.Id" class="btn btn-sm btn-outline-info ms-2">Ver más</a>
+                    </p>
+                    <p>
+                        <strong>Inquilino:</strong> @Model.Inquilino.Nombre @Model.Inquilino.Apellido
+                        <a asp-controller="inquilinos" asp-action="Detalles" asp-route-id="@Model.Inquilino.Id" class="btn btn-sm btn-outline-info ms-2">Ver más</a>
+                    </p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>

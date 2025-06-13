@@ -1,0 +1,79 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Pago>
+
+@{
+    ViewData["Title"] = "Listado de Pagos";
+}
+
+<h2>Listado de Pagos</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Realizar nuevo pago</a>
+</p>
+
+@* Alertas *@
+@if (TempData["creado"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        Pago creado exitosamente.
+    </div>
+}
+
+@if (TempData["eliminado"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        Pago eliminado exitosamente.
+    </div>
+}
+
+@if (TempData["editado"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        Pago editado exitosamente.
+    </div>
+}
+
+@if (TempData["Otro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Otro"]
+    </div>
+}
+
+<div class="card mt-3">
+    <div class="card-header bg-primary text-white">
+        Pagos Registrados
+    </div>
+    <div class="card-body">
+        <table class="table table-striped align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.First().Id_Pago)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Fecha)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Importe)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Id_Contrato)</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => item.Id_Pago)</td>
+                        <td>@Html.DisplayFor(m => item.Fecha)</td>
+                        <td>@Html.DisplayFor(m => item.Importe)</td>
+                        <td>@Html.DisplayFor(m => item.Id_Contrato)</td>
+                        <td class="text-end">
+                            <a asp-action="Edit" asp-route-id="@item.Id_Pago" class="btn btn-warning btn-sm me-1">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.Id_Pago" class="btn btn-info btn-sm me-1">Detalles</a>
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id_Pago" class="btn btn-danger btn-sm">Eliminar</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

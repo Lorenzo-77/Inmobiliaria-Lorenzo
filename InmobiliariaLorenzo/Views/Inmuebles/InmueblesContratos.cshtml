@@ -1,0 +1,75 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Inmuebles disponibles por fecha";
+}
+
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+<script src="https://kit.fontawesome.com/708362d465.js" crossorigin="anonymous"></script>
+
+<h2 class="mb-4">Inmuebles disponibles por fecha</h2>
+<p>Seleccioná un rango de fechas para ver los inmuebles que no están ocupados en ese período.</p>
+
+<div class="card shadow-sm p-4 mb-4">
+    <form asp-action="InmueblesContratos" method="get">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Fecha Desde</label>
+                <input type="date" name="Fecha_Inicio" class="form-control" required />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Fecha Hasta</label>
+                <input type="date" name="Fecha_Fin" class="form-control" required />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fa-solid fa-filter"></i> Filtrar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="card shadow-sm p-4">
+        <h4>Resultados:</h4>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Dirección</th>
+                    <th>Ambientes</th>
+                    <th>Latitud</th>
+                    <th>Longitud</th>
+                    <th>Precio</th>
+                    <th>Activo</th>
+                    <th>Uso</th>
+                    <th>Tipo</th>
+                    <th>Propietario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inmueble in Model)
+                {
+                    <tr>
+                        <td>@inmueble.Id_Inmueble</td>
+                        <td>@inmueble.Direccion</td>
+                        <td>@inmueble.Ambientes</td>
+                        <td>@inmueble.Latitud</td>
+                        <td>@inmueble.Longitud</td>
+                        <td>@inmueble.Precio.ToString("C")</td>
+                        <td>@(inmueble.Activo == true ? "Sí" : "No")</td>
+                        <td>@inmueble.Uso?.Nombre</td>
+                        <td>@inmueble.Tipo?.Nombre</td>
+                        <td>@(inmueble.Titular.Nombre + " " + inmueble.Titular.Nombre)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else if (Model != null)
+{
+    <div class="alert alert-warning">No se encontraron inmuebles disponibles en ese rango de fechas.</div>
+}

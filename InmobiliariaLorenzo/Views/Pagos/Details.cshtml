@@ -1,0 +1,34 @@
+@model InmobiliariaLorenzo.Models.Pago
+
+@{
+    ViewData["Title"] = "Detalles de Pago";
+}
+
+<h2>Detalles de Pago</h2>
+<hr />
+
+<div class="card">
+    <div class="card-header bg-info text-white">
+        Información del Pago
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Id_Pago)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Id_Pago)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Fecha)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Fecha)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Importe)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Importe)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Id_Contrato)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Id_Contrato)</dd>
+        </dl>
+
+        <div class="mt-4">
+            <a asp-action="Edit" asp-route-id="@Model.Id_Pago" class="btn btn-warning me-2">Editar</a>
+            <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+        </div>
+    </div>
+</div>

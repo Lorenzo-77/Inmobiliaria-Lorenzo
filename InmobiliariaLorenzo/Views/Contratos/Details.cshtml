@@ -1,0 +1,67 @@
+@model InmobiliariaLorenzo.Models.Contrato
+
+@{
+    ViewData["Title"] = "Detalles del Contrato";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card p-4 shadow rounded-3">
+            <h3 class="mb-4 text-center">Detalles del Contrato</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Fecha de Inicio:</strong> @Model.Fecha_Inicio.ToShortDateString()</p>
+                    <p><strong>Fecha de Finalización:</strong> @Model.Fecha_Fin.ToShortDateString()</p>
+                    <p><strong>Monto:</strong> $@Model.Monto</p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <strong>Inmueble:</strong> @Model.Inmueble?.Direccion
+                        @if (Model.Inmueble != null)
+                        {
+                            <a asp-controller="inmuebles" asp-action="Details" asp-route-id="@Model.Inmueble.Id_Inmueble" class="btn btn-sm btn-outline-info ms-2">Ver más</a>
+                        }
+                    </p>
+
+                    @if (Model.Inmueble?.Titular != null)
+                    {
+                        <p>
+                            <strong>Propietario:</strong> @Model.Inmueble.Titular.Nombre @Model.Inmueble.Titular.Apellido
+                          @* <a asp-controller="propietarios" asp-action="Details" asp-route-id="@Model.Inmueble.Titular.Id_Propietario" class="btn btn-sm btn-outline-info ms-2">Ver más</a>*@ 
+                        </p>
+                    }
+
+                    @if (Model.Inquilino != null)
+                    {
+                        <p>
+                            <strong>Inquilino:</strong> @Model.Inquilino.Nombre @Model.Inquilino.Apellido
+                           @*  <a asp-controller="inquilinos" asp-action="Details" asp-route-id="@Model.Inquilino.Id_Inquilino" class="btn btn-sm btn-outline-info ms-2">Ver más</a>*@ 
+                        </p>
+                    }
+                </div>
+            </div>
+
+            @if (User.IsInRole("Administrador"))
+            {
+                <hr />
+                <h5 class="mt-3">Auditoría</h5>
+                <p>
+                    <strong>Creado por:</strong> @Model.UsuarioCreador?.Nombre @Model.UsuarioCreador?.Apellido
+                </p>
+
+                @if (Model.UsuarioFinalizador != null)
+                {
+                    <p><strong>Finalizado por:</strong> @Model.UsuarioFinalizador.Nombre @Model.UsuarioFinalizador.Apellido</p>
+                }
+                else
+                {
+                    <p><strong>Finalizado por:</strong> <em>Aún activo</em></p>
+                }
+            }
+
+            <div class="text-center mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>

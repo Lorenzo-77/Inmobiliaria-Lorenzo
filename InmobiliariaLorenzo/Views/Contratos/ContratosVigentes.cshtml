@@ -1,0 +1,52 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Reporte de Contratos Vigentes";
+}
+
+<h2 class="mb-3">Reporte de Contratos Vigentes</h2>
+<p class="text-muted mb-4">Lista de todos los contratos de alquiler que se encuentren vigentes (por fecha de inicio y fin).</p>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <strong>Contratos Vigentes</strong>
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">
+                No hay contratos vigentes en este momento.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Monto</th>
+                            <th>Inmueble</th>
+                            <th>Inquilino</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id_Contrato</td>
+                                <td>@item.Fecha_Inicio.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Fecha_Fin.ToString("dd/MM/yyyy")</td>
+                                <td>$@item.Monto</td>
+                                <td>@item.Inmueble?.Direccion</td>
+                                <td>@($"{item.Inquilino?.Nombre} {item.Inquilino?.Apellido}")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

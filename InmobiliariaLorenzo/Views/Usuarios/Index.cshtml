@@ -1,0 +1,86 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Lista de Usuarios";
+}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+<h1 class="mt-4 mb-4 text-center"><i class="bi bi-person-badge-fill"></i> Lista de Usuarios</h1>
+
+<div class="mb-3 text-end">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-person-plus-fill"></i> Crear nuevo Usuario
+    </a>
+</div>
+
+<!-- Mensajes -->
+@if (TempData["creado"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <i class="bi bi-check-circle-fill"></i> Usuario creado exitosamente.
+    </div>
+}
+@if (TempData["eliminado"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <i class="bi bi-trash-fill"></i> Usuario eliminado exitosamente.
+    </div>
+}
+@if (TempData["editado"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        <i class="bi bi-pencil-fill"></i> Usuario editado exitosamente.
+    </div>
+}
+@if (TempData["Otro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Otro"]
+    </div>
+}
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().Id_Usuario)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Apellido)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Mail)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Rol)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Avatar)</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id_Usuario</td>
+                <td>@item.Apellido</td>
+                <td>@item.Nombre</td>
+                <td>@item.Mail</td>
+                <td>@item.Rol</td>
+                <td>
+                    <img src="@(string.IsNullOrEmpty(item.Avatar) ? "/Uploads/av1.jpg" : item.Avatar)"
+                         class="rounded-circle" style="width: 30px; height: 30px;" alt="Avatar" />
+                </td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.Id_Usuario" class="btn btn-sm btn-warning me-1">
+                        <i class="bi bi-pencil-square"></i> Editar
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.Id_Usuario" class="btn btn-sm btn-info me-1">
+                        <i class="bi bi-info-circle"></i> Detalles
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id_Usuario" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

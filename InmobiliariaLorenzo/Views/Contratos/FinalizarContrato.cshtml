@@ -1,0 +1,55 @@
+@model InmobiliariaLorenzo.Models.Contrato
+
+@{
+    ViewData["Title"] = "Finalizar Contrato";
+    var id_inquilino = (int)(ViewBag.id_inquilino != null ? ViewBag.id_inquilino : 0);
+}
+
+<h2 class="mb-3">Finalizar Contrato</h2>
+
+<div class="card">
+    <div class="card-header">
+        Confirmación de finalización
+    </div>
+    <div class="card-body">
+        <h5 class="text-danger">¿Estás seguro de que querés finalizar este contrato?</h5>
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-3">Contrato N°</dt>
+            <dd class="col-sm-9">@Model.Id_Contrato</dd>
+
+            <dt class="col-sm-3">Inicio</dt>
+            <dd class="col-sm-9">@Model.Fecha_Inicio.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Fin</dt>
+            <dd class="col-sm-9">@Model.Fecha_Fin.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Monto Mensual</dt>
+            <dd class="col-sm-9">$@Model.Monto</dd>
+
+            <dt class="col-sm-3">Inmueble</dt>
+            <dd class="col-sm-9">@Model.Inmueble.Direccion</dd>
+
+            <dt class="col-sm-3">Inquilino</dt>
+            <dd class="col-sm-9">@Model.Inquilino.Nombre @Model.Inquilino.Apellido</dd>
+
+            <dt class="col-sm-3">Monto de Cancelación</dt>
+            <dd class="col-sm-9 text-danger fw-bold">$@ViewBag.Monto</dd>
+        </dl>
+
+        <form asp-action="FinalizarContrato" method="post">
+            <input type="hidden" asp-for="Id_Contrato" />
+            <button type="submit" class="btn btn-danger">Finalizar</button>
+
+            @if (id_inquilino > 0)
+            {
+                <a asp-action="ContratosPorInquilino" asp-controller="Contratos" asp-route-id="@id_inquilino" class="btn btn-secondary ms-2">Volver al listado</a>
+            }
+            else
+            {
+                <a asp-action="Index" class="btn btn-secondary ms-2">Volver al listado</a>
+            }
+        </form>
+    </div>
+</div>

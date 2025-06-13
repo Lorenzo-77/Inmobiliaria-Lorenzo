@@ -1,0 +1,102 @@
+@model InmobiliariaLorenzo.Models.Contrato
+@{
+    ViewData["Title"] = "Crear Contrato";
+    var listaInmuebles = (List<Inmueble>)ViewBag.listaInmuebles;
+    var listaInquilinos = (List<Inquilino>)ViewBag.listaInquilinos;
+    var id_inmueble = (int)(ViewBag.id_inmueble != null? ViewBag.id_inmueble : 0 );
+    var id_inquilino = (int)(ViewBag.id_inquilino != null? ViewBag.id_inquilino : 0 );
+}
+
+<div class="mb-4">
+    @if(id_inmueble > 0 && id_inquilino > 0){
+        <h2 class="text-primary">Renovar Contrato</h2>
+    }
+    else{
+        <h2 class="text-primary">Crear Contrato</h2>
+    }
+    <hr class="border border-1 border-secondary" />
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white fw-bold">
+    Datos de Contrato
+  </div>
+  <div class="card-body">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" class="row g-3">
+                <div asp-validation-summary="ModelOnly" class="text-danger col-12"></div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Fecha_Inicio" class="form-label"></label>
+                    <input type="date" name="Fecha_Inicio" required class="form-control" />
+                    <span asp-validation-for="Fecha_Inicio" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Fecha_Fin" class="form-label"></label>
+                    <input type="date" name="Fecha_Fin" required class="form-control" />
+                    <span asp-validation-for="Fecha_Fin" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Monto" class="form-label"></label>
+                    <input asp-for="Monto" class="form-control" />
+                    <span asp-validation-for="Monto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-label">Inmueble</label>
+                    <select class="form-select" name="Id_Inmueble">
+                        @foreach (var item in listaInmuebles)
+                        {
+                            @:<option @(id_inmueble == item.Id_Inmueble? "Selected":"" )  value="@item.Id_Inmueble">@(item.Direccion)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Inquilino" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-label">Inquilino</label>
+                    <select class="form-select" name="Id_Inquilino">
+                        @foreach (var item in listaInquilinos)
+                        {
+                            @:<option @(id_inquilino == item.Id_Inquilino? "Selected":"" )  value="@item.Id_Inquilino">@(item.Nombre + " " + item.Apellido)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Inquilino" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-12">
+                    <br>
+                    @if(id_inmueble > 0 && id_inquilino > 0){
+                        <input type="submit" value="Renovar" class="btn btn-success" />
+                    }
+                    else{
+                        if(id_inmueble > 0){
+                            <input type="submit" value="Crear" class="btn btn-success" />
+                        }
+                        else{
+                            <input type="submit" value="Crear" class="btn btn-success" />
+                        }
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div>
+    @if(id_inmueble > 0 && id_inquilino > 0){
+        <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+    }
+    else{
+        if(id_inmueble > 0){
+            <a asp-action="BuscarInmuebles" class="btn btn-secondary" asp-controller="Inmuebles">Volver al listado</a>
+        }
+        else{
+            <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+        }
+    }
+</div>

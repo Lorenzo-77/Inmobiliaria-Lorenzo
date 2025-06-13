@@ -1,0 +1,55 @@
+@model InmobiliariaLorenzo.Models.Usuario
+
+@{
+    ViewData["Title"] = "Detalles de Usuario";
+}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+<h1 class="mt-4 mb-4 text-center">
+    <i class="bi bi-person-lines-fill"></i> Detalles de Usuario
+</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-info text-white">
+        <i class="bi bi-info-circle-fill"></i> Información del Usuario
+    </div>
+    <div class="card-body">
+        <div class="text-center mb-4">
+            <img src="@(Model.Avatar == "" ? "/Uploads/av1.jpg" : Model.Avatar)" class="rounded-circle shadow" style="width: 100px; height: 100px;" alt="Avatar" />
+        </div>
+
+        <dl class="row fs-5">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Id_Usuario)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Id_Usuario)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Apellido)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Apellido)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nombre)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Nombre)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Mail)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Mail)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Password)</dt>
+            <dd class="col-sm-9">*******</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Rol)</dt>
+            <dd class="col-sm-9">
+                @(Model.Rol == 1 ? "Administrador" : "Empleado")
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-4 d-flex justify-content-between">
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left-circle"></i> Volver al listado
+    </a>
+    <a asp-action="Edit" asp-route-id="@Model.Id_Usuario" class="btn btn-warning">
+        <i class="bi bi-pencil-square"></i> Editar
+    </a>
+</div>

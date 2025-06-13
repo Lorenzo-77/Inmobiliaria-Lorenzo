@@ -1,0 +1,36 @@
+@model InmobiliariaLorenzo.Models.Pago
+
+@{
+    ViewData["Title"] = "Eliminar Pago";
+}
+
+<h2>Eliminar Pago</h2>
+<hr />
+
+<div class="card">
+    <div class="card-header bg-danger text-white">
+        Confirmar Eliminación
+    </div>
+    <div class="card-body">
+        <p class="mb-3">¿Estás seguro de que querés eliminar este pago?</p>
+        
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Id_Pago)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(m => m.Id_Pago)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Fecha)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(m => m.Fecha)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Importe)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(m => m.Importe)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Id_Contrato)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(m => m.Id_Contrato)</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+        </form>
+    </div>
+</div>

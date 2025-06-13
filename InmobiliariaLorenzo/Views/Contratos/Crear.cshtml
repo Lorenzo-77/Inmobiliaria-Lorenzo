@@ -1,0 +1,68 @@
+@model InmobiliariaLorenzo.Models.Contrato
+
+@{
+    ViewData["Title"] = "Crear Contrato";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<h2 class="text-center my-4"><i class="bi bi-file-earmark-plus-fill"></i> Crear Contrato</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Crear">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="InquilinoId" class="form-label">Inquilino</label>
+                    <select asp-for="InquilinoId" class="form-select">
+                        @foreach (var inquilino in ViewBag.ListaInquilinos)
+                        {
+                            <option value="@inquilino.Id">@inquilino.Nombre @inquilino.Apellido</option>
+                        }
+                    </select>
+                    <span asp-validation-for="InquilinoId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="InmuebleId" class="form-label">Inmueble</label>
+                    <select asp-for="InmuebleId" class="form-select">
+                        @foreach (var inmueble in ViewBag.ListaInmuebles)
+                        {
+                            <option value="@inmueble.Id">@inmueble.Direccion</option>
+                        }
+                    </select>
+                    <span asp-validation-for="InmuebleId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FechaInicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" asp-for="FechaInicio" class="form-control" />
+                    <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FechaFin" class="form-label">Fecha de Fin</label>
+                    <input type="date" asp-for="FechaFin" class="form-control" />
+                    <span asp-validation-for="FechaFin" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Monto" class="form-label">Monto</label>
+                    <input type="number" asp-for="Monto" class="form-control" />
+                    <span asp-validation-for="Monto" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

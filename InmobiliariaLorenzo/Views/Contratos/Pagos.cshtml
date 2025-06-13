@@ -1,0 +1,60 @@
+@model InmobiliariaLorenzo.ViewModels.ViewModelPagoContrato
+
+@{
+    ViewData["Title"] = "Pagos del Contrato";
+}
+
+<div class="row mt-4 justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4 shadow rounded-3">
+            <h4 class="text-center mb-4">Registrar un Pago</h4>
+            <form asp-action="Pagos">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mb-3">
+                    <label asp-for="pago.Id_Contrato">Contrato</label>
+                    <input type="number" asp-for="pago.Id_Contrato" class="form-control" />
+                    <span asp-validation-for="pago.Id_Contrato" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="pago.Fecha">Fecha del Pago</label>
+                    <input type="date" asp-for="pago.Fecha" class="form-control" />
+                    <span asp-validation-for="pago.Fecha" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="pago.Importe">Importe</label>
+                    <input type="number" asp-for="pago.Importe" class="form-control" />
+                    <span asp-validation-for="pago.Importe" class="text-danger"></span>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Pagar" class="btn btn-success" />
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Volver a Contratos</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <h5>Historial de Pagos</h5>
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.pago.Id_Pago)</th>
+                <th>Contrato</th>
+                <th>Fecha de Pago</th>
+                <th>Importe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.lpago)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id_Pago)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Id_Contrato)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                    <td>$@Html.DisplayFor(modelItem => item.Importe)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

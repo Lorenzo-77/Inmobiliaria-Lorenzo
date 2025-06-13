@@ -1,0 +1,108 @@
+@model InmobiliariaLorenzo.Models.Inmueble
+
+@{
+    ViewData["Title"] = "Crear Inmueble";
+    var listaPropietarios = (List<Propietario>)ViewBag.listaPropietarios;
+    var listaUsos = (List<Uso>)ViewBag.listaUsos;
+    var listaTipos = (List<Tipo>)ViewBag.listaTipos;
+}
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
+<h2 class="text-center my-4"><i class="bi bi-house-add-fill"></i> Crear Inmueble</h2>
+
+<div class="card shadow-sm mx-auto" style="max-width: 800px;">
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Direccion" class="form-label"></label>
+                    <input asp-for="Direccion" class="form-control" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Ambientes" class="form-label"></label>
+                    <input asp-for="Ambientes" class="form-control" />
+                    <span asp-validation-for="Ambientes" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Latitud" class="form-label"></label>
+                    <input asp-for="Latitud" class="form-control" />
+                    <span asp-validation-for="Latitud" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Longitud" class="form-label"></label>
+                    <input asp-for="Longitud" class="form-control" />
+                    <span asp-validation-for="Longitud" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Precio" class="form-label"></label>
+                    <input asp-for="Precio" class="form-control" />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Activo" class="form-label"></label>
+                    <select asp-for="Activo" class="form-select">
+                        <option value="True">Sí</option>
+                        <option value="False">No</option>
+                    </select>
+                    <span asp-validation-for="Activo" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Id_Uso" class="form-label">Uso</label>
+                    <select asp-for="Id_Uso" class="form-select">
+                        @foreach (var item in listaUsos)
+                        {
+                            <option value="@item.Id_Uso">@item.Nombre</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Uso" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Id_Tipo" class="form-label">Tipo</label>
+                    <select asp-for="Id_Tipo" class="form-select">
+                        @foreach (var item in listaTipos)
+                        {
+                            <option value="@item.Id_Tipo">@item.Nombre</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Tipo" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label asp-for="Id_Propietario" class="form-label">Propietario</label>
+                    <select asp-for="Id_Propietario" class="form-select">
+                        @foreach (var item in listaPropietarios)
+                        {
+                            <option value="@item.Id_Propietario">@item.Nombre @item.Apellido</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Propietario" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <a asp-action="Index" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-left-circle"></i> Volver
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Crear
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

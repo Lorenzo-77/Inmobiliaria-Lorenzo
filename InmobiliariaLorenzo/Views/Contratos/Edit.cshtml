@@ -1,0 +1,72 @@
+@model InmobiliariaLorenzo.Models.Contrato
+@{
+    ViewData["Title"] = "Editar Contrato";
+    var listaInmuebles = (List<Inmueble>)ViewBag.listaInmuebles;
+    var listaInquilinos = (List<Inquilino>)ViewBag.listaInquilinos;
+    var id_inmueble = (int)(ViewBag.id_inmueble != null? ViewBag.id_inmueble : 0 );
+    var id_inquilino = (int)(ViewBag.id_inquilino != null? ViewBag.id_inquilino : 0 );
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card p-4 shadow rounded-3">
+            <h3 class="text-center mb-4">Editar Contrato</h3>
+            <form asp-action="Edit" method="post" id="formContrato">
+                <input type="hidden" asp-for="Id_Contrato" />
+                <div class="form-group mb-3">
+                    <label asp-for="Fecha_Inicio"></label>
+                    <input type="date" asp-for="Fecha_Inicio" class="form-control" />
+                    <span asp-validation-for="Fecha_Inicio" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Fecha_Fin"></label>
+                    <input type="date" asp-for="Fecha_Fin" class="form-control" />
+                    <span asp-validation-for="Fecha_Fin" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Monto">Monto Mensual</label>
+                    <input type="number" asp-for="Monto" class="form-control" />
+                    <span asp-validation-for="Monto" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Inmueble</label>
+                    <select class="form-select" name="Id_Inmueble">
+                        @foreach (var item in listaInmuebles)
+                        {
+                            @:<option @(id_inmueble == item.Id_Inmueble? "Selected":"" )  value="@item.Id_Inmueble">@(item.Direccion)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Inquilino" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Inquilino</label>
+                    <select class="form-select" name="Id_Inquilino">
+                        @foreach (var item in listaInquilinos)
+                        {
+                            @:<option @(id_inquilino == item.Id_Inquilino? "Selected":"" )  value="@item.Id_Inquilino">@(item.Nombre + " " + item.Apellido)</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id_Inquilino" class="text-danger"></span>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('formContrato').addEventListener('submit', function (e) {
+            var inicio = document.getElementById('Fecha_Inicio').value;
+            var fin = document.getElementById('Fecha_Fin').value;
+            if (inicio && fin && fin < inicio) {
+                alert("La fecha de fin no puede ser anterior a la fecha de inicio.");
+                e.preventDefault();
+            }
+        });
+    </script>
+}

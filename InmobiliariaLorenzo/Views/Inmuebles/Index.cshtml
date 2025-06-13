@@ -1,0 +1,93 @@
+@model IEnumerable<InmobiliariaLorenzo.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Lista de Inmuebles";
+}
+
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+<script src="https://kit.fontawesome.com/708362d465.js" crossorigin="anonymous"></script>
+
+<h2 class="mb-4"><i class="bi bi-building"></i>Lista de Inmuebles</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="fa-solid fa-plus"></i> Crear nuevo
+    </a>
+</div>
+
+<!-- Filtros -->
+<form asp-controller="Inmuebles" asp-action="Index" method="get" class="row g-2 align-items-end mb-4">
+    <div class="col-md-4">
+        <label for="tipoId" class="form-label">Tipo de Propiedad:</label>
+        <select class="form-select" id="tipoId" name="tipoId">
+            <option value="">Todos</option>
+            <option value="1">Casa</option>
+            <option value="2">Oficina</option>
+            <option value="3">Departamento</option>
+            <option value="4">Almacén</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="dispId" class="form-label">Disponibilidad:</label>
+        <select class="form-select" id="dispId" name="dispId">
+            <option value="">Todos</option>
+            <option value="1">Ocupado</option>
+            <option value="2">Disponible</option>
+        </select>
+    </div>
+    <div class="col-md-4 d-flex justify-content-start gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-filter"></i> Filtrar
+        </button>
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-rotate-left"></i> Limpiar
+        </a>
+    </div>
+</form>
+
+<!-- Tabla -->
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Id_Inmueble)</th>
+            <th>Propietario</th>
+            <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+            <th>@Html.DisplayNameFor(model => model.Uso)</th>
+            <th>@Html.DisplayNameFor(model => model.Tipo)</th>
+            <th>@Html.DisplayNameFor(model => model.Precio)</th>
+            <th>@Html.DisplayNameFor(model => model.Activo)</th>
+            <th>Disp.</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id_Inmueble</td>
+                <td>@item.Titular.Nombre @item.Titular.Apellido</td>
+                <td>@item.Direccion</td>
+                <td>@item.Uso?.Nombre</td>
+                <td>@item.Tipo?.Nombre</td>
+
+                <td>@item.Precio.ToString("C")</td>
+                <td>@(item.Activo == true ? "Sí" : "No")</td>
+                <td>@(item.Activo == true ? "Sí" : "No")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id_Inmueble" class="text-primary me-2">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.Id_Inmueble" class="text-warning me-2">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id_Inmueble" class="text-danger">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
